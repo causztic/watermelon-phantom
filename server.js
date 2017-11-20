@@ -37,11 +37,16 @@ if (system.args.length !== 2) {
             page.evaluate(function(data){
               GEvent.addListener(directions, "addoverlay", function() {
                 // console log to catch on page.
+                var routes = document.querySelector("#gotheredir ol").children;
                 var obj = {}
                 var timeAndPrice = document.querySelector(".gotheresum").innerHTML.split("(");
                 obj.time = timeAndPrice[0].trim();
                 obj.price = timeAndPrice[1].substring(1, timeAndPrice[1].length - 1);
                 obj.mode = data[2];
+                obj.routes = [];
+                for (var i = 0; i < routes.length; i++){
+                  obj.routes.push(routes[i].textContent);
+                }
                 console.log(JSON.stringify(obj));
               });
               getDirections(data[0].replace(/%20/g, " "), data[1].replace(/%20/g, " "), data[2]);
