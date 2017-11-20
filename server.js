@@ -23,7 +23,7 @@ if (system.args.length !== 2) {
         console.log('Request received at ' + new Date());
 
         page.onConsoleMessage = function(msg, lineNum, sourceId) {
-          //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+          console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
           response.write(msg);
           response.close();
         };
@@ -40,8 +40,11 @@ if (system.args.length !== 2) {
                 var routes = document.querySelector("#gotheredir ol").children;
                 var obj = {}
                 var timeAndPrice = document.querySelector(".gotheresum").innerHTML.split("(");
-                obj.time = timeAndPrice[0].trim();
-                obj.price = timeAndPrice[1].substring(1, timeAndPrice[1].length - 1);
+                var time = timeAndPrice[0].trim();
+                var price = timeAndPrice[1];
+
+                obj.time = time.substring(0, time.length - 3).trim();
+                obj.price = price.substring(1, price.length - 1);
                 obj.mode = data[2];
                 obj.routes = [];
                 for (var i = 0; i < routes.length; i++){
