@@ -24,7 +24,7 @@ if (system.args.length !== 2) {
 
         page.onConsoleMessage = function(msg, lineNum, sourceId) {
           //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
-          response.write(JSON.stringify({ data: JSON.parse(msg) }));
+          response.write(msg);
           response.close();
         };
 
