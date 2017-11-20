@@ -19,7 +19,7 @@ if (system.args.length !== 2) {
     if (status === 'success'){
       console.log("API up, started listening at " + port);
       var service = server.listen(port, function (request, response) {
-        var data = request.url.substring(1).split(',')
+        var data = request.url.substring(1).split('/')
         console.log('Request received at ' + new Date());
 
         page.onConsoleMessage = function(msg, lineNum, sourceId) {
