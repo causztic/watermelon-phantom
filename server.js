@@ -24,7 +24,7 @@ if (system.args.length !== 2) {
 
         page.onConsoleMessage = function(msg, lineNum, sourceId) {
           //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
-          response.write(JSON.stringify({ data: msg }));
+          response.write(JSON.stringify({ data: JSON.parse(msg) }));
           response.close();
         };
 
@@ -37,9 +37,14 @@ if (system.args.length !== 2) {
             page.evaluate(function(data){
               GEvent.addListener(directions, "addoverlay", function() {
                 // console log to catch on page.
-                console.log(document.querySelector("#gotheredir").innerHTML);
+                var obj = {}
+                var timeAndPrice = document.querySelector(".gotheresum").innerHTML.split("(");
+                obj.time = timeAndPrice[0].trim();
+                obj.price = timeAndPrice[1].substring(1, timeAndPrice[1].length - 1);
+                obj.mode = data[2];
+                console.log(JSON.stringify(obj));
               });
-              getDirections(data[0].replace(/%20/g, " "), data[1].replace(/%20/g, " "), "pt");
+              getDirections(data[0].replace(/%20/g, " "), data[1].replace(/%20/g, " "), data[2]);
             }, data);
         }
       });
