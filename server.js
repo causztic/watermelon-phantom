@@ -40,11 +40,16 @@ if (system.args.length !== 2) {
                 var routes = document.querySelector("#gotheredir ol").children;
                 var obj = {}
                 var timeAndPrice = document.querySelector(".gotheresum").innerHTML.split("(");
-                var time = timeAndPrice[0].trim();
-                var price = timeAndPrice[1];
+                var firstItem = timeAndPrice[0].trim();
+                var secondItem = timeAndPrice[1].trim();
 
-                obj.time = time.substring(0, time.length - 3).trim();
-                obj.price = price.substring(1, price.length - 1);
+                if (firstItem.startsWith("$")){
+                  obj.price = firstItem.substring(1);
+                  obj.time = secondItem.replace("min)", "").trim();
+                } else {
+                  obj.price = secondItem.substring(1, secondItem.length - 1);
+                  obj.time = firstItem.replace("min", "").trim();
+                }
                 obj.mode = data[2];
                 obj.routes = [];
                 for (var i = 0; i < routes.length; i++){
