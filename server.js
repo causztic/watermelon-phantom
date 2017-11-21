@@ -43,14 +43,13 @@ if (system.args.length !== 2) {
                 var firstItem = timeAndPrice[0].trim();
                 var secondItem = timeAndPrice[1].trim();
 
-                if (firstItem.startsWith("$")){
+                if (firstItem[0] === '$'){
                   obj.price = firstItem.substring(1);
                   obj.time = secondItem.replace("min)", "").trim();
                 } else {
                   obj.price = secondItem.substring(1, secondItem.length - 1);
                   obj.time = firstItem.replace("min", "").trim();
                 }
-                obj.mode = data[2];
                 obj.routes = [];
                 for (var i = 0; i < routes.length; i++){
                   obj.routes.push(routes[i].textContent);
