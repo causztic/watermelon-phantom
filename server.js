@@ -23,7 +23,7 @@ if (system.args.length !== 2) {
         console.log('Request received at ' + new Date());
 
         page.onConsoleMessage = function(msg, lineNum, sourceId) {
-          console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+          //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
           response.write(msg);
           response.close();
         };
