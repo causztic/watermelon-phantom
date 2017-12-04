@@ -6,7 +6,7 @@
   "author": "yaojie <limyaojie93@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "hapi": "^17.1.1",
+    "hapi": "^16",
     "phantom": "^4.0.11"
   }
 }
