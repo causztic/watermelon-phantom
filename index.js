@@ -2,7 +2,7 @@
 const phantom = require('phantom')
 const Hapi = require('hapi')
 const server = new Hapi.Server()
-server.connection({ port: 3000, host: '0.0.0.0' })
+server.connection({ port: process.env.PORT || 3000, host: '0.0.0.0' })
 let instance, page, status
 
 const watermelon = async () => {
