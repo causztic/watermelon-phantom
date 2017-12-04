@@ -33,8 +33,10 @@ server.route({
     let vertex2 = request.params.vertex2.replace(/%20/g, " ")
     let mode    = request.params.mode
 
+    console.log(vertex1, vertex2, mode)
+
     await page.on('onConsoleMessage', function(msg, lineNum, sourceId) {
-      //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+      console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
       page.off('onConsoleMessage')
       reply(msg)
     });
