@@ -1,0 +1,11 @@
+{
+  "name": "watermelon-phantom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:causztic/watermelon-phantom.git",
+  "author": "yaojie <limyaojie93@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "phantom": "^4.0.11"
+  }
+}
