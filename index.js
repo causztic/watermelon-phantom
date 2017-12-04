@@ -2,7 +2,7 @@
 const phantom = require('phantom')
 const Hapi = require('hapi')
 const server = new Hapi.Server()
-server.connection = { port: 3000, host: '0.0.0.0' }
+server.connection({ port: 3000, host: '0.0.0.0' })
 let instance, page, status
 
 const watermelon = async () => {
@@ -17,10 +17,11 @@ server.start((err) => {
         throw err;
     }
     watermelon().then(value => {
-      console.log(`${value}`)
-      console.log(`Server running at: ${server.info.uri}`)
+      if (value === 'success')
+        console.log(`Server running at: ${server.info.uri}`)
+      else
+        throw "API is down."
     })
-    console.log(`Server running at: ${server.info.uri}`)
 })
 
 server.route({
@@ -28,19 +29,17 @@ server.route({
   path: '/{vertex1}/{vertex2}/{mode}',
   handler: async (request, reply) => {
 
-    await page.on('onResourceRequested', function(requestData) {
-      console.info('Requesting', requestData.url)
+    let vertex1 = request.params.vertex1.replace(/%20/g, " ")
+    let vertex2 = request.params.vertex2.replace(/%20/g, " ")
+    let mode    = request.params.mode
+
+    await page.on('onConsoleMessage', function(msg, lineNum, sourceId) {
+      //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+      page.off('onConsoleMessage')
+      reply(msg)
     });
 
-    let vertex1 = request.params.vertex1
-    let vertex2 = request.params.vertex2
-    let mode    = request.params.mode
-    page.onConsoleMessage = function(msg, lineNum, sourceId) {
-      //console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
-      reply(msg)
-    };
-
-    page.evaluate(function(data){
+    page.evaluate(function(vertex1, vertex2, mode){
       GEvent.addListener(directions, "addoverlay", function() {
         // console log to catch on page.
         var routes = document.querySelector("#gotheredir ol").children;
@@ -62,8 +61,8 @@ server.route({
         }
         console.log(JSON.stringify(obj));
       });
-      getDirections(data[0].replace(/%20/g, " "), data[1].replace(/%20/g, " "), data[2]);
-    }, data);
+      getDirections(vertex1, vertex2, mode);
+    }, vertex1, vertex2, mode);
 
   }
 })
